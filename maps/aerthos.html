@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map of Aerthos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5dc; /* Parchment-like background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .map-container {
+            background-color: #fcf8e8; /* Lighter parchment for the map area */
+            border: 2px solid #a07a4a; /* Darker border for map frame */
+            border-radius: 8px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 1000px; /* Limit max width for desktop */
+            width: 95%; /* Responsive width */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            border: 1px solid #d4c09d; /* Inner border for the map drawing area */
+            border-radius: 4px;
+        }
+
+        /* SVG Styles for Hand-Drawn Look */
+        .terrain-path {
+            stroke-width: 1.5;
+            stroke: #3b2f2f; /* Dark brown/ink color for outlines */
+            fill-opacity: 1;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: url(#roughness); /* Apply the roughness filter */
+        }
+
+        .border-path {
+            stroke-width: 3;
+            stroke: #a02020; /* Reddish-brown for borders */
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            filter: url(#roughness);
+        }
+
+        .grid-line {
+            stroke: #bdae9c; /* Faint grid color */
+            stroke-width: 1;
+            stroke-dasharray: 4 4; /* Dashed lines */
+        }
+
+        .grid-label {
+            font-family: 'Caveat', cursive; /* Hand-drawn font for labels */
+            font-size: 24px;
+            fill: #3b2f2f;
+            text-anchor: middle;
+        }
+
+        .country-label {
+            font-family: 'Caveat', cursive;
+            font-size: 36px;
+            font-weight: bold;
+            fill: #4a3b2f; /* Darker brown for country names */
+            text-anchor: middle;
+            filter: url(#roughness-text);
+        }
+
+        .location-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            fill: #2a2a2a; /* Dark grey for location names */
+            text-anchor: middle;
+            font-weight: 600;
+        }
+
+        .location-icon {
+            fill: #6b4e2f; /* Brown for icons */
+            stroke: #2a2a2a;
+            stroke-width: 0.5;
+        }
+
+        /* Terrain specific colors */
+        .ocean { fill: #c0d8e8; } /* Light blue */
+        .coast { fill: #e8d8b0; } /* Sandy beige */
+        .plains { fill: #d8e8c0; } /* Light green */
+        .forest { fill: #a0c880; } /* Deeper green */
+        .mountains { fill: #b8b0a8; } /* Greyish brown */
+        .hills { fill: #c8d8a0; } /* Lighter green-brown */
+        .swamp { fill: #80a080; } /* Murky green */
+        .river { fill: #80b0c8; stroke: #3b2f2f; stroke-width: 2; } /* Blue with dark outline */
+
+        /* Tooltip styles */
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 100;
+            white-space: nowrap;
+        }
+        .location-group:hover .tooltip {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 flex justify-center items-center min-h-screen">
+    <div class="map-container">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">The Island of Aerthos</h1>
+        <svg id="aerthosMap" viewBox="0 0 1100 1100">
+            <defs>
+                <!-- SVG Filter for Hand-Drawn / Roughness Effect -->
+                <filter id="roughness" x="-50%" y="-50%" width="200%" height="200%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="3" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
+                </filter>
+                <filter id="roughness-text" x="-50%" y="-50%" width="200%" height="200%">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" result="noise" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+                </filter>
+            </defs>
+            <!-- Map elements will be drawn here by JavaScript -->
+        </svg>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const svg = document.getElementById('aerthosMap');
+            const CELL_SIZE = 100;
+            const PADDING = 50; // Padding for grid labels
+            const MAP_WIDTH = 10 * CELL_SIZE;
+            const MAP_HEIGHT = 10 * CELL_SIZE;
+
+            // Data from the provided files
+            const terrainGridData = [
+                ['~', '=', 'M', 'M', 'v', 'v', 'v', 'M', '=', 'M'],
+                ['=', '.', 'M', 'T', 'T', 'T', 'M', 'M', 'M', 'M'],
+                ['=', '.', '.', 'M', 'T', 'T', 'T', 'T', 'M', '='],
+                ['~', '=', '.', 'M', 'T', 'T', 'T', 'M', 'M', 'M'],
+                ['=', '.', '.', 'T', 'T', 'T', 'T', 'M', 'M', 'M'],
+                ['=', '.', '.', '.', '.', 'T', '.', '.', '.', 'M'],
+                ['=', 'h', '.', '.', '.', '.', '.', '.', '.', '='],
+                ['=', 'h', 'h', '.', '.', '.', '.', '.', '.', '='],
+                ['=', '=', 'h', '.', '.', '.', '.', '.', '.', '='],
+                ['~', '=', '=', '=', '=', '=', '=', '=', '=', '='],
+            ];
+
+            const territoryGridData = [
+                ['S', 'S', 'S', 'W', 'W', 'W', 'W', 'I', 'I', 'I'],
+                ['S', 'S', 'S', 'W', 'W', 'W', 'W', 'I', 'I', 'I'],
+                ['S', 'S', 'S', 'W', 'W', 'W', 'W', 'I', 'I', 'I'],
+                ['S', 'S', 'S', 'W', 'W', 'W', 'W', 'I', 'I', 'I'],
+                ['S', 'S', 'S', 'W', 'W', 'W', 'W', 'I', 'I', 'I'],
+                ['S', 'S', 'S', 'U', 'U', 'U', 'U', 'U', 'U', 'U'],
+                ['S', 'S', 'S', 'U', 'U', 'U', 'U', 'U', 'U', 'U'],
+                ['S', 'S', 'S', 'U', 'U', 'U', 'U', 'U', 'U', 'U'],
+                ['S', 'S', 'S', 'U', 'U', 'U', 'U', 'U', 'U', 'U'],
+                ['S', 'S', 'S', 'U', 'U', 'U', 'U', 'U', 'U', 'U'],
+            ];
+
+            const countries = {
+                'S': { name: 'Silver Coast Dominion', color: '#80b0d0', labelPos: { x: 250, y: 550 } }, // Adjusted for better fit
+                'U': { name: 'Sunstone Confederacy', color: '#f0e0a0', labelPos: { x: 700, y: 800 } },
+                'I': { name: 'Ironclad Marches', color: '#b08080', labelPos: { x: 850, y: 250 } },
+                'W': { name: 'Whispering Woods Enclave', color: '#80c080', labelPos: { x: 450, y: 250 } }
+            };
+
+            const locations = [
+                // Silver Coast Dominion
+                { name: 'Silverwood', grid: 'B5', icon: '🏰', type: 'city', description: 'The gleaming capital, a bustling port city.' },
+                { name: 'Havenport', grid: 'B9', icon: '⚓', type: 'port', description: 'A vibrant southern port, crucial for trade.' },
+                { name: 'Fort Sentinel', grid: 'C2', icon: '🛡️', type: 'fort', description: 'Formidable fortress guarding a mountain pass.' },
+                // Sunstone Confederacy
+                { name: 'Solara', grid: 'I8', icon: '☀️', type: 'city', description: 'Largest and most prosperous city-state, High Council seat.' },
+                { name: 'Greenwatch', grid: 'D8', icon: '🌾', type: 'town', description: 'Agricultural center and militia training grounds.' },
+                { name: 'The Breadbasket Gates', grid: 'E6', icon: '🌉', type: 'fortification', description: 'Fortified watchtowers and river crossings.' },
+                // Ironclad Marches
+                { name: 'Thanehold', grid: 'I3', icon: '⛰️', type: 'city', description: 'Massive fortress-city carved into the tallest mountain.' },
+                { name: 'Blackfang Pass', grid: 'H5', icon: '🏔️', type: 'pass', description: 'A brutal, fortified pass into mining regions.' },
+                { name: 'Dreadnaught Cove', grid: 'I2', icon: '🏴‍☠️', type: 'naval_base', description: 'Sheltered cove, strategic naval base for raiding longships.' },
+                // Whispering Woods Enclave
+                { name: 'The Emerald Grove', grid: 'F3', icon: '🌳', type: 'grove', description: 'Sacred, ancient grove, spiritual center of the Druidic Council.' },
+                { name: 'Riverbend Spire', grid: 'D4', icon: '🌲', type: 'outpost', description: 'Tall, slender elven spire near a major river, watchtower.' },
+                { name: 'The Shrouded Mire', grid: 'F1', icon: '🐊', type: 'mire', description: 'Vast, treacherous bog and swamp, natural defense zone.' },
+            ];
+
+            // Helper to convert grid coordinates (e.g., "B5") to SVG pixel coordinates
+            function getCoords(grid) {
+                const col = grid.charCodeAt(0) - 'A'.charCodeAt(0);
+                const row = parseInt(grid.substring(1)) - 1;
+                const x = col * CELL_SIZE + CELL_SIZE / 2 + PADDING;
+                const y = row * CELL_SIZE + CELL_SIZE / 2 + PADDING;
+                return { x, y, col, row };
+            }
+
+            // Function to create SVG element
+            function createSvgElement(tag, attributes) {
+                const element = document.createElementNS('http://www.w3.org/2000/svg', tag);
+                for (const key in attributes) {
+                    element.setAttribute(key, attributes[key]);
+                }
+                return element;
+            }
+
+            // Draw terrain features with some naturalization
+            function drawTerrain() {
+                const terrainColors = {
+                    '~': 'ocean',
+                    '=': 'coast',
+                    '.': 'plains',
+                    'T': 'forest',
+                    'M': 'mountains',
+                    'h': 'hills',
+                    'o': 'lake', // Not explicitly used but good to have
+                    'r': 'river', // Handled separately
+                    '&': 'island', // Not explicitly used
+                    '_': 'desert', // Not explicitly used
+                    'v': 'swamp',
+                    'X': 'wasteland' // Not explicitly used
+                };
+
+                // Draw base terrain
+                for (let r = 0; r < 10; r++) {
+                    for (let c = 0; c < 10; c++) {
+                        const terrainType = terrainGridData[r][c];
+                        const rect = createSvgElement('rect', {
+                            x: c * CELL_SIZE + PADDING,
+                            y: r * CELL_SIZE + PADDING,
+                            width: CELL_SIZE,
+                            height: CELL_SIZE,
+                            class: `terrain-path ${terrainColors[terrainType]}`
+                        });
+                        svg.appendChild(rect);
+                    }
+                }
+
+                // Overlay more naturalized terrain features (simplified for this example)
+                // Mountains: Draw peaks over mountain cells
+                for (let r = 0; r < 10; r++) {
+                    for (let c = 0; c < 10; c++) {
+                        if (terrainGridData[r][c] === 'M') {
+                            const x = c * CELL_SIZE + PADDING;
+                            const y = r * CELL_SIZE + PADDING;
+                            const pathData = `M${x} ${y + CELL_SIZE} L${x + CELL_SIZE / 2} ${y} L${x + CELL_SIZE} ${y + CELL_SIZE} Z`;
+                            const mountain = createSvgElement('path', {
+                                d: pathData,
+                                class: 'terrain-path mountains',
+                                fill: '#908880' // Slightly darker grey for mountain shapes
+                            });
+                            svg.appendChild(mountain);
+                        }
+                    }
+                }
+
+                // Forests: Draw stylized trees
+                for (let r = 0; r < 10; r++) {
+                    for (let c = 0; c < 10; c++) {
+                        if (terrainGridData[r][c] === 'T') {
+                            const x = c * CELL_SIZE + PADDING;
+                            const y = r * CELL_SIZE + PADDING;
+                            // Draw a few simple tree shapes
+                            const tree1 = createSvgElement('circle', { cx: x + CELL_SIZE * 0.3, cy: y + CELL_SIZE * 0.4, r: CELL_SIZE * 0.2, class: 'terrain-path forest', fill: '#609060' });
+                            const tree2 = createSvgElement('circle', { cx: x + CELL_SIZE * 0.7, cy: y + CELL_SIZE * 0.6, r: CELL_SIZE * 0.25, class: 'terrain-path forest', fill: '#609060' });
+                            svg.appendChild(tree1);
+                            svg.appendChild(tree2);
+                        }
+                    }
+                }
+
+                // Rivers: Draw a few example rivers connecting cells
+                // This is a simplified example, a full river system would be complex
+                const rivers = [
+                    // River from central mountains (F3) to Silverwood (B5)
+                    { start: getCoords('F3'), end: getCoords('E4') },
+                    { start: getCoords('E4'), end: getCoords('D5') },
+                    { start: getCoords('D5'), end: getCoords('C5') },
+                    { start: getCoords('C5'), end: getCoords('B5') },
+                    // River near Riverbend Spire (D4)
+                    { start: getCoords('D3'), end: getCoords('D4') },
+                    { start: getCoords('D4'), end: getCoords('C4') },
+                    // River near Breadbasket Gates (E6)
+                    { start: getCoords('F6'), end: getCoords('E6') },
+                    { start: getCoords('E6'), end: getCoords('D6') },
+                ];
+
+                rivers.forEach(river => {
+                    const pathData = `M${river.start.x} ${river.start.y} L${river.end.x} ${river.end.y}`;
+                    const riverPath = createSvgElement('path', {
+                        d: pathData,
+                        class: 'river',
+                        fill: 'none'
+                    });
+                    svg.appendChild(riverPath);
+                });
+            }
+
+            // Draw national borders
+            function drawBorders() {
+                const drawnBorders = new Set(); // To avoid drawing duplicate borders
+
+                for (let r = 0; r < 10; r++) {
+                    for (let c = 0; c < 10; c++) {
+                        const currentCountry = territoryGridData[r][c];
+                        const x = c * CELL_SIZE + PADDING;
+                        const y = r * CELL_SIZE + PADDING;
+
+                        // Check right neighbor
+                        if (c < 9) {
+                            const rightCountry = territoryGridData[r][c + 1];
+                            if (currentCountry !== rightCountry) {
+                                const borderId = `V${r}-${c}`;
+                                if (!drawnBorders.has(borderId)) {
+                                    const line = createSvgElement('line', {
+                                        x1: x + CELL_SIZE, y1: y,
+                                        x2: x + CELL_SIZE, y2: y + CELL_SIZE,
+                                        class: 'border-path'
+                                    });
+                                    svg.appendChild(line);
+                                    drawnBorders.add(borderId);
+                                }
+                            }
+                        }
+
+                        // Check bottom neighbor
+                        if (r < 9) {
+                            const bottomCountry = territoryGridData[r + 1][c];
+                            if (currentCountry !== bottomCountry) {
+                                const borderId = `H${r}-${c}`;
+                                if (!drawnBorders.has(borderId)) {
+                                    const line = createSvgElement('line', {
+                                        x1: x, y1: y + CELL_SIZE,
+                                        x2: x + CELL_SIZE, y2: y + CELL_SIZE,
+                                        class: 'border-path'
+                                    });
+                                    svg.appendChild(line);
+                                    drawnBorders.add(borderId);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Draw grid lines and labels
+            function drawGridAndLabels() {
+                // Horizontal grid lines
+                for (let i = 0; i <= 10; i++) {
+                    const line = createSvgElement('line', {
+                        x1: PADDING, y1: i * CELL_SIZE + PADDING,
+                        x2: MAP_WIDTH + PADDING, y2: i * CELL_SIZE + PADDING,
+                        class: 'grid-line'
+                    });
+                    svg.appendChild(line);
+                }
+
+                // Vertical grid lines
+                for (let i = 0; i <= 10; i++) {
+                    const line = createSvgElement('line', {
+                        x1: i * CELL_SIZE + PADDING, y1: PADDING,
+                        x2: i * CELL_SIZE + PADDING, y2: MAP_HEIGHT + PADDING,
+                        class: 'grid-line'
+                    });
+                    svg.appendChild(line);
+                }
+
+                // Column labels (A-J)
+                for (let i = 0; i < 10; i++) {
+                    const label = String.fromCharCode(65 + i); // 65 is ASCII for 'A'
+                    const text = createSvgElement('text', {
+                        x: i * CELL_SIZE + CELL_SIZE / 2 + PADDING,
+                        y: PADDING / 2 + 10, // Adjust position for top margin
+                        class: 'grid-label'
+                    });
+                    text.textContent = label;
+                    svg.appendChild(text);
+                }
+
+                // Row labels (1-10)
+                for (let i = 0; i < 10; i++) {
+                    const label = (i + 1).toString();
+                    const text = createSvgElement('text', {
+                        x: PADDING / 2 - 10, // Adjust position for left margin
+                        y: i * CELL_SIZE + CELL_SIZE / 2 + PADDING + 8, // +8 for vertical alignment
+                        class: 'grid-label',
+                        'text-anchor': 'end' // Align text to the right
+                    });
+                    text.textContent = label;
+                    svg.appendChild(text);
+                }
+            }
+
+            // Draw country names
+            function drawCountryNames() {
+                for (const key in countries) {
+                    const country = countries[key];
+                    const text = createSvgElement('text', {
+                        x: country.labelPos.x + PADDING,
+                        y: country.labelPos.y + PADDING,
+                        class: 'country-label'
+                    });
+                    text.textContent = country.name;
+                    svg.appendChild(text);
+                }
+            }
+
+            // Draw locations
+            function drawLocations() {
+                locations.forEach(loc => {
+                    const { x, y } = getCoords(loc.grid);
+
+                    const group = createSvgElement('g', {
+                        class: 'location-group',
+                        transform: `translate(${x}, ${y})`
+                    });
+
+                    // Icon
+                    const iconText = createSvgElement('text', {
+                        'font-size': '20px',
+                        'text-anchor': 'middle',
+                        'dominant-baseline': 'central',
+                        'class': 'location-icon',
+                        y: -10 // Adjust icon position
+                    });
+                    iconText.textContent = loc.icon;
+                    group.appendChild(iconText);
+
+                    // Label
+                    const labelText = createSvgElement('text', {
+                        'font-size': '14px',
+                        'text-anchor': 'middle',
+                        'dominant-baseline': 'hanging',
+                        'class': 'location-label',
+                        y: 10 // Adjust label position
+                    });
+                    labelText.textContent = loc.name;
+                    group.appendChild(labelText);
+
+                    // Add a hidden tooltip for description
+                    const tooltipDiv = document.createElement('div');
+                    tooltipDiv.className = 'tooltip';
+                    tooltipDiv.textContent = loc.description;
+                    document.body.appendChild(tooltipDiv); // Append to body for correct positioning
+
+                    // Event listeners for tooltip
+                    group.addEventListener('mouseenter', (e) => {
+                        tooltipDiv.style.opacity = '1';
+                        tooltipDiv.style.left = `${e.pageX + 10}px`;
+                        tooltipDiv.style.top = `${e.pageY + 10}px`;
+                    });
+                    group.addEventListener('mousemove', (e) => {
+                        tooltipDiv.style.left = `${e.pageX + 10}px`;
+                        tooltipDiv.style.top = `${e.pageY + 10}px`;
+                    });
+                    group.addEventListener('mouseleave', () => {
+                        tooltipDiv.style.opacity = '0';
+                    });
+
+                    svg.appendChild(group);
+                });
+            }
+
+            // Drawing order matters: terrain first, then borders, then labels/icons
+            drawTerrain();
+            drawBorders();
+            drawGridAndLabels();
+            drawCountryNames();
+            drawLocations();
+        });
+    </script>
+</body>
+</html>

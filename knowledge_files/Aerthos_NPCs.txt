@@ -1,0 +1,134 @@
+﻿NPC Character Card: Captain Borin Stonehand
+* Name: Borin Stonehand
+* Title/Role: Captain of the Silverwood Royal Guard (Personal retinue of the Dominion Monarch)
+* Gender: Male
+* Species: Human
+* Age: 42
+* Country/Allegiance: Silver Coast Dominion
+* Personality Traits: Stoic, Loyal, Observant, Disciplined, Pragmatic.
+* Appearance Tags: Broad-shouldered, Weathered face, Short-cropped grey hair, Wears meticulously maintained Royal Guard plate armor.
+* Skills (1-5, 5=Masterful):
+   * Martial: 5 (Masterful combatant, excellent military strategist, strong leader of troops)
+   * Religious: 1
+   * Charisma: 2 (More commands respect through presence than words)
+   * Scholarly: 2 (Knowledge primarily focused on military history and tactics)
+NPC Character Card: Ser Eldrin Thorne
+* Name: Ser Eldrin Thorne 
+* Title/Role: Master of Coin 
+* Gender: Male
+* Species: Human 
+* Age: 58
+* Country/Allegiance: Silver Coast Dominion
+* Personality Traits: Shrewd, Meticulous, Fiscally Conservative, Loyal (to the Crown and Dominion's prosperity), Pragmatic.
+* Appearance Tags: Middling height, meticulously trimmed beard, shrewd intelligent eyes, fine but understated robes, a heavy chain of office with a large intricately carved coin pendant
+* Notable Quirk(s): Often taps his fingers lightly on any available surface when deep in thought.
+* Background: A commoner by birth, Ser Eldrin rose through the ranks of the Dominion's treasury service due to his exceptional aptitude for numbers and financial management. He served your predecessor loyally and has been instrumental in building the Dominion's current economic strength. He believes strongly in prudent spending and long-term financial stability. He is wary of unnecessary risks and believes that a strong treasury is the bedrock of all power. 
+* Skills: 
+   * Martial: 2 (Familiarity with military doctrine insofar as understanding the logistics of maintaining and operating the armed forces of the Dominion)
+   * Religious: 1
+   * Charisma: 3 (Notably effective at economic negotiations and has a strong reputation and high level of trust at economic affairs)
+   * Scholarly: 4 (Highly educated about the ministrations of economics and trade, less concerned but generally knowledgeable in other affairs)
+   * Other:
+      * Economics: 5
+      * Accounting: 4
+      * Logistics: 3 
+      * Economic Information Gathering: 4
+
+
+NPC Character Card: Grand Admiral Theron
+* Name: Theron
+* Title/Role: Grand Admiral of the Silver Coast Dominion Fleet
+* Gender: Male
+* Species: Human
+* Age: 55
+* Country/Allegiance: Silver Coast Dominion
+* Personality Traits: Experienced, Strategic, Dutiful, Resolute, Direct.
+* Appearance Tags: Tall, Weather-beaten face, Piercing blue eyes, Short grey hair, Imposing build, Wears deep blue and gold Admiral's uniform.
+* Background: Grand Admiral Theron has spent his entire life at sea, rising through the ranks from a deckhand to command the Dominion's prestigious fleet. He is renowned for his strategic naval mind and his unwavering dedication to protecting the Dominion's maritime interests. He believes the fleet is the true shield of the Dominion's wealth and prosperity.
+* Skills (1-5, 5=Masterful):
+   * Martial: 5 (Masterful naval strategist and commander, experienced in ship-to-ship combat)
+   * Religious: 1
+   * Charisma: 3 (Commands respect through authority and experience, less through persuasion)
+   * Scholarly: 3 (Extensive knowledge of naval history, logistics, and oceanography)
+   * Seamanship: 5 (Unparalleled knowledge of sailing, navigation, and naval engineering)
+
+
+NPC Character Card: Lady Lyra Meadowlight
+* Name: Lyra Meadowlight
+* Title/Role: Royal Steward / Chief Minister
+* Gender: Female
+* Species: Human
+* Age: 68
+* Country/Allegiance: Silver Coast Dominion
+* Personality Traits: Astute, Diplomatic, Patient, Traditionalist, Highly Organized.
+* Appearance Tags: Elegant, Silver hair often tied in a neat bun, Kind but discerning eyes, Wears refined, practical robes.
+* Background: Lady Lyra has served the House of Silverwood for decades, first as a senior aide and then rising to the position of Royal Steward. She possesses an unparalleled understanding of the Dominion's internal workings, its complex bureaucracy, and the intricate relationships between its various noble families and merchant guilds. She is a firm believer in the strength of good governance and stability.
+* Skills (1-5, 5=Masterful):
+   * Martial: 1
+   * Religious: 3
+   * Charisma: 4 (Skilled at mediation and fostering cooperation)
+   * Scholarly: 5 (Masterful in administration, law, history, and political theory)
+NPC Character Card: Lord Tristan Thorne
+* Name: Tristan Thorne
+* Title/Role: Master of Laws
+* Gender: Male
+* Species: Human
+* Age: 45
+* Country/Allegiance: Silver Coast Dominion                
+* Personality Traits: Principled, Unyielding, Logical, Reserved, Cautious.
+* Appearance Tags: Lean build, Sharp features, Always impeccably dressed in dark, formal attire, Intense gaze.
+* Background: Lord Tristan comes from a respected but not overly powerful noble family with a long history of legal service to the Crown. He is a brilliant legal mind, dedicated to upholding the laws of the Dominion and ensuring justice, often prioritizing strict adherence to precedent above all else. He is known for his thoroughness and his meticulous attention to detail in all legal matters.
+* Skills (1-5, 5=Masterful):
+   * Martial: 2
+   * Religious: 2
+   * Charisma: 3 (Respected for his intellect, but not overtly persuasive)
+   * Scholarly: 5 (Masterful in law, jurisprudence, and historical legal precedent)
+NPC Character Card: High Priestess Anara
+* Name: Anara
+* Title/Role: High Priestess of the Dominion (Head of the primary faith)
+* Gender: Female
+* Species: Human
+* Age: 72
+* Country/Allegiance: Silver Coast Dominion
+* Personality Traits: Serene, Wise, Compassionate, Influential, Traditional.
+* Appearance Tags: Frail in stature but possesses a commanding presence, Wears flowing white and silver priestly robes, Eyes that hold a deep, knowing calm, Often carries a smooth, polished wooden staff.
+* Background: High Priestess Anara has led the primary faith of the Silver Coast Dominion for over three decades, guiding the spiritual lives of its people and acting as a moral compass for the monarchy. Her influence stems from her deep wisdom, unwavering piety, and her widespread respect among the populace. She often advocates for peace, justice, and the well-being of the common folk.
+* Skills (1-5, 5=Masterful):
+   * Martial: 1
+   * Religious: 5 (Masterful spiritual authority, deep theological knowledge, strong influence over the devout)
+   * Charisma: 4 (Inspiring, persuasive through gentle wisdom)
+   * Scholarly: 3 (Knowledge of ancient texts, philosophy, and social structures)
+
+
+NPC Character Card: Grand Marshal Valerius "Iron-Hand" Stoneguard
+* Name: Valerius "Iron-Hand" Stoneguard
+* Title/Role: Grand Marshal of the Dominion Army (Commander of Land Forces)
+* Gender: Male
+* Species: Human
+* Age: 62
+* Country/Allegiance: Silver Coast Dominion
+* Personality Traits: Stern, Strategic, Disciplined, Cautious in Peace, Aggressive in War, Loyal.
+* Appearance Tags: Imposing, Broad-shouldered, Scarred face, Short grey hair, Wears meticulously maintained full plate armor, Often carries a war hammer or gauntlet.
+* Background: Grand Marshal Stoneguard is a legendary figure in the Dominion Army, having risen through the ranks from a common soldier to the highest military command. He is known for his unwavering discipline, tactical brilliance, and his pragmatic approach to warfare. He views the Army as the protector of the Dominion's land and people, and is keenly aware of potential threats from neighboring powers. He values military strength above all else.
+* Skills (1-5, 5=Masterful):
+   * Martial: 5 (Masterful land tactician and strategist, inspiring leader of troops, highly experienced in siege and field combat)
+   * Religious: 1
+   * Charisma: 3 (Commands respect through authority and accomplishments, not overt charm)
+   * Scholarly: 3 (Extensive knowledge of military history, logistics, and fortifications)
+
+
+NPC Character Card: Ambassador Seraphina Elmwood
+* Name: Seraphina Elmwood
+* Title/Role: Ambassador of the Sunstone Confederacy to the Silver Coast Dominion
+* Gender: Female
+* Species: Human
+* Age: 48
+* Country/Allegiance: Sunstone Confederacy
+* Personality Traits: Reserved, Observant, Diplomatic, Patient, Loyal (to Confederacy).
+* Appearance Tags: Slender, Wears simple but finely woven robes in earthy tones, Intelligent and serene eyes, Hair kept in a practical bun.
+* Background: Ambassador Elmwood rose through the ranks of the Confederacy's diplomatic corps, serving in various minor posts before her appointment to Silverwood. She is highly valued for her ability to maintain relationships without overtly committing the Confederacy to external entanglements, a reflection of their isolationist policies.
+* Skills (1-5, 5=Masterful):
+   * Martial: 1
+   * Religious: 2
+   * Charisma: 4 (Skilled in subtle persuasion and maintaining amiable relations)
+   * Scholarly: 4 (Knowledge of international law, trade agreements, and Confederacy history/politics)

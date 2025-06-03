@@ -1,0 +1,135 @@
+﻿## Military Unit Code System
+
+
+This game uses a 3-part code system to categorize and rank military units for quick interpretation. The format is: `[CATEGORY]-[GEAR_QUALITY]-[SKILL_LEVEL]`.
+
+
+---
+
+
+### CATEGORY (First Letter): Defines the primary role or type of the unit.
+
+
+* **I:** **Infantry** - Melee ground units, such as swordsmen, spearmen, axe-wielders, pikemen, etc.
+* **R:** **Ranged** - All ranged infantry, including archers, crossbowmen, slingers, javelinmen, and skirmishers who primarily use ranged attacks.
+* **C:** **Cavalry** - Mounted melee units, such as knights, lancers, heavy cavalry, and light cavalry.
+* **H:** **Horse Archer** - Mounted ranged units, including steppe riders, mounted skirmishers, or any unit that uses a mount for mobility but primarily engages with ranged weapons.
+* **M:** **Magic** - Spellcasters and arcane specialists, such as battle mages, druids, sorcerers, or healers who use magic offensively/defensively in battle.
+* **B:** **Beast/Monster** - Non-human combatants like trolls, ogres, giant spiders, griffons, or units composed of/accompanied by large, trained combat beasts.
+* **G:** **Siege** - Siege equipment and their specialized crews, such as trebuchets, ballistae, catapults, and battering rams, along with their engineers.
+* **V:** **Naval Vessel** - Warships, patrol ships, transports.
+* **VI:** **Naval Infantry** - Specialized marine detachments whose primary role is ship-to-ship combat or boarding action from a vessel
+
+
+---
+
+
+### GEAR QUALITY (Second Letter): Indicates the quality of a unit's equipment (weapons, armor, supplies).
+
+
+* **B:** **Basic/Poor** - Poorly equipped, makeshift arms, very light or no armor. (e.g., peasant levies, desperate conscripts.)
+* **S:** **Standard/Serviceable** - Decent arms, common leather or simple chain armor, effective but not exceptional. (e.g., town guards, regular professional soldiers, average equipment.)
+* **R:** **Reinforced/Quality** - High-quality steel weapons, partial plate or reinforced chainmail/scale, well-maintained and reliable gear. (e.g., veteran soldiers, well-funded professional armies.)
+* **E:** **Elite/Exceptional** - Masterwork weapons, full plate or magically enhanced armor, rare materials, top-tier equipment. (e.g., royal guards, elite knights, unique unit gear.)
+
+
+---
+
+
+### SKILL LEVEL (Third Number, 1-5): Represents a unit's training, experience, and discipline.
+
+
+* **1:** **Raw/Untrained** - Minimal combat experience, poor discipline, prone to panic, easily routed.
+* **2:** **Green/Basic Training** - Can follow simple commands, hold a line, but lack tactical awareness or advanced skills.
+* **3:** **Seasoned/Regular** - Reliable, good performance in standard engagements, decent discipline, capable of basic maneuvers.
+* **4:** **Veteran/Experienced** - Highly skilled, decisive in combat, strong discipline, can adapt to changing situations, often lead smaller groups.
+* **5:** **Elite/Master** - Peak proficiency, inspirational, rarely falter even in dire circumstances, capable of complex maneuvers, top-tier individual combatants.
+
+
+---
+
+
+### Map Grid System
+
+
+Aerthos is represented by a **10x10 grid**.
+* **Columns (X-axis):** Labeled A through J.
+* **Rows (Y-axis):** Labeled 1 through 10.
+* Each cell represents approximately 800 square kilometers of territory.
+* **Coordinates:** Cells are referenced using the column letter followed by the row number (e.g., `A1`, `E5`, `J10`).
+* Country territories are defined by explicit lists of grid cells in the `Aerthos_Countries.txt` knowledge file. The GM will use this list to track control and movement, and players can use it to visualize geographic context.
+
+
+---
+
+
+### Aerthos Map Terrain Definitions
+
+
+Aerthos's diverse landscape is categorized into specific terrain types, each represented by a unique ASCII symbol on the terrain map. These terrain types influence movement, resource availability, combat, and strategic options.
+
+
+**Terrain Type Legend:**
+* **~**: **Ocean** - Vast bodies of salt water surrounding the island or large internal seas. Impassable by ground units.
+* **=**: **Coast** - The transitional zone where land meets a significant body of water (ocean or large lake). Crucial for ports and naval access.
+* **.**: **Plains** - Flat, open, and often fertile land. Ideal for agriculture and rapid movement of large armies.
+* **T**: **Forest** - Areas of dense trees and undergrowth. Provides cover, slows movement, and can offer defensive advantages.
+* **M**: **Mountains** - High, rugged, and difficult terrain. Impedes movement significantly, offers strong defensive positions, and may contain mineral resources.
+* **h**: **Hills** - Elevated, rolling terrain, less extreme than mountains. Offers some defensive bonuses and moderate movement penalties.
+* **o**: **Lake** - An inland body of still water. Acts as a barrier, generally impassable by ground units unless frozen or special means are used.
+* **r**: **River** - A flowing watercourse. Acts as a barrier requiring crossings (bridges, fords) or can be used for limited transport.
+* **&**: **Island** - A small landmass surrounded entirely by water. May offer unique resources or strategic outposts.
+* **_**: **Desert** - Arid, barren land with sparse vegetation. Severely impacts movement and supply.
+* **v**: **Swamp/Mire** - Waterlogged, muddy terrain. Greatly impedes movement, provides excellent cover for ambushes, and can be unhealthy.
+* **X**: **Wasteland/Barrens** - Desolate, resource-poor land. Difficult to traverse and sustain forces within.
+
+
+---
+
+
+### Conceptual Terrain Grid Map of Aerthos (10x10 Grid: Columns A-J, Rows 1-10)
+
+
+This map shows the general terrain of each grid cell (formatted as CSV.
+(Note: Specific features like small rivers or precise coastlines within a cell are abstracted by the primary terrain type. For more detail, refer to country descriptions or in-game narratives.)
+
+
+A,B,C,D,E,F,G,H,I,J
+~,=,M,M,v,v,v,M,=,M
+=,.,M,T,T,T,M,M,M,M
+=,.,.,M,T,T,T,T,M,=
+~,=,.,M,T,T,T,M,M,M
+=,.,.,T,T,T,T,M,M,M
+=,.,.,.,.,T,.,.,.,M
+=,h,.,.,.,.,.,.,.,=
+=,h,h,.,.,.,.,.,.,=
+=,=,h,.,.,.,.,.,.,=
+~,=,=,=,=,=,=,=,=,=
+
+
+
+
+---
+
+
+### Character Card Template
+
+
+Used to represent the player and major/significant NPCs (advisors, generals, ambassadors etc…, not small roles like regular soldiers, or guards)
+### NPC Character Card: [NPC Name] ###
+* **Name:** [Full Name]
+* **Title/Role:** [Chief Minister/General/Diplomat/Merchant Lord/Spy Master/Rebel Leader/etc.]
+* **Gender:** [Male/Female/Non-Binary]
+* **Species:** [Human/Elf/Dwarf/Other]
+* **Age:** [Numerical value indicating their age]
+* **Country/Allegiance:** [Country Name (e.g., Silver Coast Dominion) or "Independent," "Neutral"]
+* **Personality Traits:** [List of descriptive adjectives/short phrases, e.g., "Loyal, Shrewd, Cautious," "Ambitious, Ruthless, Charismatic," "Wise, Stoic, Nature-bound"]
+* **Appearance Tags:** [List of descriptive adjectives/short phrases, e.g., "Tall, Bearded, Wears heavy plate," "Slender, Graceful, Long silver hair," "Scarred face, Missing eye, Wears plain robes"]
+* **Notable Quirk(s):** [(**Optional**) If applicable, one or more unusual behaviors that set the character apart from others]
+* **Background:** [(**Optional**) Short summary of their career/origin. Should only be for really major characters like top advisors, generals, country rulers, etc… ]
+* **Skills (1-5, 5=Masterful):**
+    * **Martial:** [1-5] (Effectiveness in combat, military strategy, leadership of troops)
+    * **Religious:** [1-5] (Knowledge of faith, influence over religious figures, spiritual authority)
+    * **Charisma:** [1-5] (Diplomatic ability, public speaking, persuasion, influence over people)
+    * **Scholarly:** [1-5] (Knowledge of history, science, economics, administration, research)
+    * **(Other skills as appropriate):** [1-5] (Occasionally, other more unique skill traits may be added as fitting for specific characters if its important enough and doesn’t quite fit into the above)
