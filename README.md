@@ -35,6 +35,21 @@ You can also create and upload your own copy of `Aerthos_NPCs.txt` to manage you
 
 **Download Files** - Use git to clone or download the files as a zip (one of the options if you click the green `code` button at the top of the repo) from this repo to your local computer so you can then upload them to Gemin
 
+---
+
+***Download as zip***
+
+![](./images/download_zip.png)
+
+***Use git clone***
+
+Open terminal and navigate to where you want to store the repo, then run:
+```
+git clone git@github.com:jmbski/ai-civ.git
+```
+
+---
+
 **Create Gem** - First step is to navigate to create a new Gem from the Gemini chat UI. The option is in the expanded menu on the left side
 
 **Core Prompt** - Copy the contents of the `core_prompt.txt` file into the main prompt section of the newly created Gem. 
