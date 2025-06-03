@@ -43,6 +43,8 @@ You can also create and upload your own copy of `Aerthos_NPCs.txt` to manage you
 
 ***Use git clone***
 
+*Caveat: This, obviously, assumes you have git already installed on your computer. If not, you can find installation instructions [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)*
+
 Open terminal and navigate to where you want to store the repo, then run:
 ```
 git clone git@github.com:jmbski/ai-civ.git
