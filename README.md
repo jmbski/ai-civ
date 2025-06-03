@@ -23,12 +23,17 @@ You can also create and upload your own copy of `Aerthos_NPCs.txt` to manage you
 
 *Caveat: Unless you link to a Google Doc or similar, you'll need to re-upload the NPC file. Also depends on which interface you use to run the bot*
 
+### Maps
+
+**aerthos_map.html**: Simplistic, AI Generated semi-interactive map of the island. Not very detailed, but gives a decent sense of where things are geographically. You'll 
 ## Helpful Tips
 
 **Google Docs** - At least with Gemini, if you upload the files via Google Drive, the Gem will automatically update whenever you update the Google Doc. This is very useful for making minor changes or keeping a running log of NPC character cards
 
 
 ## Setup - Google Gemini
+
+**Clone Repo** - Clone or download the files from this repo to your local computer so you can then upload them to Gemin
 
 **Create Gem** - First step is to navigate to create a new Gem from the Gemini chat UI. The option is in the expanded menu on the left side
 
